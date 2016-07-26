@@ -133,13 +133,16 @@ aside {
 /* forms */
 
 input, textarea, select, .uneditable_input {
-  border: 1px solid #bbb;
+  border: 0.1rem solid #bbb;
   width: 100%;
-  margin-bottom: 15px;
+  margin-bottom: 1.5rem;
   @include box-sizing;
 }
 input {
   height: auto !important;
+  &[type='submit'] {
+    margin-bottom: 1rem;
+  }
 }
 #error_explanation {
   color: red;
@@ -153,6 +156,18 @@ input {
   .form-control {
     color: $state-danger-text // bootstrap color variable
   }
+}
+.checkbox {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  span {
+    margin-left: 2rem;
+    font-weight: normal;
+  }
+}
+#session_remember_me {
+  width: auto;
+  margin-left: 0;
 }
 
 /* miscellaneous */

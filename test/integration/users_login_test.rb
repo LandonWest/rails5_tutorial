@@ -37,4 +37,16 @@ class UsersLoginTest < ActionDispatch::IntegrationTest
     assert_select "a[href=?]", logout_path,      count: 0
     assert_select "a[href=?]", user_path(@user), count: 0
   end
+
+  test 'login with remembering' do
+    log_in_as(@user, remember_me: '1')
+    assert_not_nil cookies['remember_token'] # inside tests, the cookies method doesn’t work with symbols as keys, so that
+                                             # cookies[:remember_token] is always nil. Luckily, cookies does work with string keys
+    assert_equal cookies['remember_token'], assigns(:user).remember_token # 'assigns let's you acces instance variables in the controllers
+  end
+
+  test 'login without remembering' do
+    log_in_as(@user, remember_me: '0')
+    assert_nil cookies['remember_token']
+  end
 end

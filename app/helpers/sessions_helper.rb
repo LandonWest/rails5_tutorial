@@ -16,7 +16,7 @@ module SessionsHelper
     # this "=" is not a comparison. read: “If session of user id exists (while setting user id to session of user id)…”
     if (user_id = session[:user_id])
       @curent_user ||= User.find_by(id: user_id)
-    elsif (user_id = cookies.signed[:user_id])   # dito
+    elsif (user_id = cookies.signed[:user_id])
       user = User.find_by(id: user_id)
       if user && user.authenticated?(cookies[:remember_token])
         log_in user
