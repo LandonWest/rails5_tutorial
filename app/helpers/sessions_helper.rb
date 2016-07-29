@@ -11,9 +11,14 @@ module SessionsHelper
     cookies.permanent[:remember_token] = user.remember_token
   end
 
-  # returns the user corresponding to session or the remember token cookie.
+  # Returns true if the given user is the current user.
+  def current_user?(user)
+    user == current_user
+  end
+
+  # Returns the user corresponding to session or the remember token cookie.
   def current_user
-    # this "=" is not a comparison. read: “If session of user id exists (while setting user id to session of user id)…”
+    # This "=" is not a comparison. read: “If session of user id exists (while setting user id to session of user id)…”
     if (user_id = session[:user_id])
       @curent_user ||= User.find_by(id: user_id)
     elsif (user_id = cookies.signed[:user_id])
@@ -25,7 +30,7 @@ module SessionsHelper
     end
   end
 
-  # returns true if the current user is logged in
+  # Returns true if the current user is logged in.
   def logged_in?
     !current_user.nil?
   end
@@ -37,10 +42,23 @@ module SessionsHelper
     cookies.delete(:remember_token)
   end
 
-  # logs in the current user
+  # Logs in the current user.
   def log_out
     forget(current_user)
     session.delete(:user_id)
     @current_user = nil
+  end
+
+  # Stores the URL trying to be accessed.
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
+  end
+
+  # Redirects to stored location (or to the default).
+  def redirect_back_or(default)
+    redirect_to(session[:forwarding_url] || default) # redirects don’t happen until
+    # an explicit return or the end of the method, so any code appearing after the
+    # redirect is still executed. (i.e. session.delete happens before the redirect.)
+    session.delete(:forwarding_url)
   end
 end
