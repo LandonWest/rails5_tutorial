@@ -13,11 +13,24 @@ class UsersController < ApplicationController
     if @user.save
       log_in @user
       flash[:success] = 'Welcome to the Sample App!'
-      # redirect_to user_url(@user)
       redirect_to @user
       # Rails automatically infers from redirect_to @user that we want to redirect to user_url(@user).
     else
       render 'new'
+    end
+  end
+
+  def edit
+    @user = User.find(params[:id])
+  end
+
+  def update
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
+      flash[:success] = 'Changes saved!'
+      redirect_to @user
+    else
+      render 'edit'
     end
   end
 

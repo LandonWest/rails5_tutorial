@@ -11,7 +11,7 @@ module SessionsHelper
     cookies.permanent[:remember_token] = user.remember_token
   end
 
-  # returns the user corresponding to the remember token cookie.
+  # returns the user corresponding to session or the remember token cookie.
   def current_user
     # this "=" is not a comparison. read: “If session of user id exists (while setting user id to session of user id)…”
     if (user_id = session[:user_id])
