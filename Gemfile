@@ -3,7 +3,10 @@ ruby '2.3.1'
 
 gem 'rails',          '5.0.0'
 gem 'bcrypt',         '3.1.11'
+# normaly faker would be confined to dev group, but we're using it to seed production db
 gem 'faker',          '1.6.3'
+gem 'will_paginate',  '3.1.0'
+gem 'bootstrap-will_paginate', '0.0.10'
 gem 'bootstrap-sass', '3.3.6'
 gem 'puma',           '3.4.0'
 gem 'sass-rails',     '5.0.5'
