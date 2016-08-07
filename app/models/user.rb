@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  has_many :microposts
+  has_many :microposts, dependent: :destroy # if a user is destroyed, the user’s microposts will be destroyed as well
   attr_accessor :remember_token, :activation_token, :reset_token # these  are virtual attributes that aren't saved to db
   before_save :downcase_email
   before_create :create_activation_digest
