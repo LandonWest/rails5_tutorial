@@ -9,7 +9,7 @@ john:
   activated_at: <%= Time.zone.now %>
 
 kevin:
-  name:  Bob
+  name:  Kevin Bob
   email: kevin@bob.com
   password_digest: <%= User.digest('password') %>
   activated: true

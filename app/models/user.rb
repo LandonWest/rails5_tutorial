@@ -69,6 +69,13 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago # “Password reset sent earlier than two hours ago.”
   end
 
+  # Defines a proto-feed.
+  # See "Following users" for the full implementation.
+  def feed
+    # the "?" ensures that id is properly escaped before being included in the SQL query (prevents SQL injection)
+    Micropost.where('user_id = ?', id)
+  end
+
   private # private methods are only available on the class object itself, not on instantiated objects of that class
 
     def downcase_email
