@@ -1,8 +1,13 @@
 class User < ApplicationRecord
   has_many :microposts, dependent: :destroy # if a user is destroyed, the user’s microposts will be destroyed as well
-  has_many :active_relationships, class_name:  'Relationship',
-                                  foreign_key: 'follower_id',
-                                  dependent:   :destroy
+  has_many :active_relationships,  class_name:  'Relationship',
+                                   foreign_key: 'follower_id',
+                                   dependent:   :destroy
+  has_many :passive_relationships, class_name:  'Relationship',
+                                   foreign_key: 'followed_id',
+                                   dependent:   :destroy
+  has_many :following, through: :active_relationships,  source: :followed
+  has_many :followers, through: :passive_relationships, source: :follower
   attr_accessor :remember_token, :activation_token, :reset_token # these  are virtual attributes that aren't saved to db
   before_save :downcase_email
   before_create :create_activation_digest
@@ -77,6 +82,21 @@ class User < ApplicationRecord
   def feed
     # the "?" ensures that id is properly escaped before being included in the SQL query (prevents SQL injection)
     Micropost.where('user_id = ?', id)
+  end
+
+  # follows a user
+  def follow(other_user)
+    active_relationships.create(followed_id: other_user.id)
+  end
+
+  # unfollows a user
+  def unfollow(other_user)
+    active_relationships.find_by(followed_id: other_user.id).destroy
+  end
+
+  # Returns true if the current user is following the other user.
+  def following?(other_user)
+    following.include?(other_user)
   end
 
   private # private methods are only available on the class object itself, not on instantiated objects of that class
