@@ -15,6 +15,12 @@ Rails.application.routes.draw do
   post '/login',    to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
 
+  resources :users do
+    member do  # the member method arranges for the routes to respond to URLs containing the user id.
+      get :following, :followers
+    end
+  end
+
   resources :users,             except: [:new, :create]
   resources :account_activations, only: [:edit]
   resources :password_resets,     only: [:new, :create, :edit, :update]
