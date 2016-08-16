@@ -77,11 +77,10 @@ class User < ApplicationRecord
     reset_sent_at < 2.hours.ago # “Password reset sent earlier than two hours ago.”
   end
 
-  # Defines a proto-feed.
-  # See "Following users" for the full implementation.
+  # Returns a user's status feed.
   def feed
     # the "?" ensures that id is properly escaped before being included in the SQL query (prevents SQL injection)
-    Micropost.where('user_id = ?', id)
+    Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
   end
 
   # follows a user
