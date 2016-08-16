@@ -1,7 +1,10 @@
 ENV['RAILS_ENV'] ||= 'test'
-require 'simplecov'
-SimpleCov.start 'rails'
-puts 'required simplecov'
+# SimpleCov will only run when you execute your tests like this: COVERAGE=true rails test
+if ENV["COVERAGE"]
+  require 'simplecov'
+  SimpleCov.start 'rails'
+  puts 'required simplecov'
+end
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 require 'minitest/reporters'
