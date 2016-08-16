@@ -26,4 +26,8 @@
 # Ignore uploaded test images.
 /public/uploads
 
+# Ignore simplecov test coverage reports
+coverage
+
 .nothing_to_see_here.txt
+.DS_Store

@@ -7,7 +7,10 @@ Rails.application.configure do
   config.cache_classes = false
 
   # Do not eager load code on boot.
+  # Disable Rails's static asset server (Apache or nginx will already do this)
   config.eager_load = false
+  config.serve_static_files = false
+
 
   # Show full error reports.
   config.consider_all_requests_local = true
