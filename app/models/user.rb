@@ -79,8 +79,12 @@ class User < ApplicationRecord
 
   # Returns a user's status feed.
   def feed
-    # the "?" ensures that id is properly escaped before being included in the SQL query (prevents SQL injection)
-    Micropost.where("user_id IN (?) OR user_id = ?", following_ids, id)
+    # make a subselect of followed users' ids to insert into main query
+    following_ids = "SELECT followed_id FROM relationships
+                     WHERE follower_id = :user_id"
+    # select microposts with followed users' ids or current user's microposts
+    Micropost.where("user_id IN (#{following_ids})
+                    OR user_id = :user_id", user_id: id)
   end
 
   # follows a user
