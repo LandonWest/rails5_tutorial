@@ -271,3 +271,7 @@ span.picture {
   margin-top: 4.5rem;
   @include box_sizing;
 }
+#close_flash {
+  float: right;
+  cursor: pointer;
+}
