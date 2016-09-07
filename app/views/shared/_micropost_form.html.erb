@@ -12,17 +12,18 @@
 <% end %>
 
 <script type="text/javascript">
-  // subtract character count on input and enable/disable submit button
   $('textarea').on('input', function() {
-    $('#js-post-count').text(140 - $(this).val().length);
-
-    if ($(this).val().length > 0) {
+    var $length = $(this).val().length;
+    // subtract character count on input
+    $('#js-post-count').text(140 - $length);
+    // enable/disable submit button based on textarea length
+    if ($length > 0 && $length <= 140) {
       $('#js-post-btn').prop('disabled', false);
     } else {
       $('#js-post-btn').prop('disabled', true);
     }
     // highlight count red when out of characters
-    if ($(this).val().length > 140) {
+    if ($length > 140) {
       $('#js-post-count').addClass('alert-text');
     } else {
       $('#js-post-count').removeClass('alert-text');
